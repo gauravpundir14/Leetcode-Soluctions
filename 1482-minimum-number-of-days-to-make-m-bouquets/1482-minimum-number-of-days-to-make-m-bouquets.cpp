@@ -1,66 +1,52 @@
-class Solution {
+//Problem Link-https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/
+
+class Solution
+{
 public:
-    
-    
-    bool bloom(vector<int>& bloomDay,int mid, int m, int k)
-    {  
-        int flower=0,bouq=0;
-        for(int i=0;i<bloomDay.size();i++)
+    bool bouquets(vector<int> &bloomDay, int m, int k, int mid)
+    {
+        int n = bloomDay.size();
+        int flower = 0;
+        int bouquet = 0;
+        for (int i = 0; i < n; i++)
         {
-            if(bloomDay[i]<=mid)
-            {
+            if (bloomDay[i] <= mid) //if number is less than mid then that flower is bloomed.
                 flower++;
-            }
             else
+                flower = 0;
+
+            if (flower >= k) //flowers are taken  to made bouq.
             {
-                flower=0;
-            }
-            
-            if(flower>=k)
-            {
-                bouq++;
-                flower=0;
+                bouquet++;
+                flower = 0;
             }
         }
-            if(bouq>=m)
-            {
-                return true;
-                
-            }
-        
+        if (bouquet >= m)
+            return true; //bouquet is made
         return false;
-            
-            
-        }
-        
-    
-    int minDays(vector<int>& bloomDay, int m, int k) {
-          if(m*k>bloomDay.size()){
-            return -1;
-        }
-        long long int  low=INT_MIN;
-       long long  int high=INT_MAX;
-        
-        long long int mid,ans=-1;
-        
-        while(low<=high)
+    }
+
+    int minDays(vector<int> &bloomDay, int m, int k)
+    {
+
+        int left = *min_element(bloomDay.begin(), bloomDay.end());
+        int right = *max_element(bloomDay.begin(), bloomDay.end());
+        int result = -1; //default
+
+        if (bloomDay.size() < m * k)
+            return -1; //more bouquets, less flowers
+
+        while (left <= right)
         {
-            
-            mid=low+(high-low)/2;
-            
-            if(bloom(bloomDay,mid,m,k))
+            int mid = (left + right) / 2;
+            if (bouquets(bloomDay, m, k, mid))
             {
-                ans=mid;
-                high=mid-1;
+                result = mid;
+                right = mid - 1; //check on lhs of mid
             }
-            
             else
-            {
-                low=mid+1;
-            }
+                left = mid + 1; //check on rhs of mid
         }
-        
-        return ans;
-        
+        return result;
     }
 };
