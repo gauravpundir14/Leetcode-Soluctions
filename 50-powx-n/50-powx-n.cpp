@@ -1,8 +1,26 @@
 class Solution {
-public:        
-         // one liner recursive and smarter code
+public:
+double myPow(double x, int n) {
+
+    if(n > 0){
+        if(n == 1) return x;
+
+        double res = myPow(x,n/2);
+
+        if(n%2 == 0) return res * res;
+        else return x * res * res;
+    }
+    else if(n < 0){
+        if(n == -1) return 1/x;
         
-         double myPow(double x, int n,double res=1) {
-         return n ? myPow(x * x, n / 2, n % 2 ? (n > 0 ? res * x : res / x) : res) : res;
+        
+        double res = myPow(x,n/2);
+        cout << res << "\n";
+        
+        if(n%2 == 0) return res * res;
+        else return 1/x * res * res;   
+    }
+    
+    return 1;
 }
 };
