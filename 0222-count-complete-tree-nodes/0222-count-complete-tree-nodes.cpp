@@ -11,16 +11,29 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root, int &cnt){
-        if(!root) return;
-        cnt++; //increament the counter
-        inorder(root->left, cnt); //traversing left subtree
-        inorder(root->right, cnt); //traversing right subtree
-    }
-    
     int countNodes(TreeNode* root) {
-        int cnt = 0;
-        inorder(root, cnt); //we are using inorder traversal here
-        return cnt; //returning the counter
+        if(!root)
+        {
+            return 0;
+        }
+        queue<TreeNode*> q;
+        int cnt=1;
+        q.push(root);
+        while(!q.empty())
+        {   
+            TreeNode * node=q.front();
+            q.pop();
+            if(node->left)
+            {
+               cnt++;
+                q.push(node->left);
+            }
+            if(node->right)
+            {
+               cnt++;
+                q.push(node->right);
+            }
+        }
+        return cnt;
     }
 };
