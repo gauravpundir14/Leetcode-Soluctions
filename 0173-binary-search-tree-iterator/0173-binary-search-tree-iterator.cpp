@@ -31,7 +31,6 @@ public:
     
     int next() {
         return in[i++];
-        i++;
     }
     
     bool hasNext() {
