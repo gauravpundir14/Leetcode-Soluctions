@@ -1,45 +1,62 @@
 class Solution {
-public:
-    vector<vector<string>> ans;
-    int arr[15][15];
-    vector<vector<string>> solveNQueens(int n) {
+    //since we are traversing cols from left side 1 no need to check all directions for attack only from left
+    bool notAttacking(int row, int col, vector<string> &board, int n) {
+        int tmpRow = row;
+        int tmpCol = col;
         
-        Try(0, n);
-        return ans;
-    }
-
-    void Try(int i, int n){
-        if(i == n){
-            ans.push_back(stringRender(n));
-            return;
+        //checking left upper diagonal for attack for any queen
+        while(row >= 0 && col >= 0) {
+            if(board[row][col] == 'Q')  return false;
+            row--;
+            col--;
         }
-
-        for(int j=0; j<n; j++){
-            if(validate(i, j, n)){
-                arr[i][j] = 1;
-                Try(i+1, n);
-                arr[i][j] = 0;
+        
+        //checking left side of cols for attack from any queen
+        row = tmpRow;
+        col = tmpCol;
+        while(col>=0) {
+            if(board[row][col] == 'Q')  return false;
+            col--;
+        }
+        
+        //checking left downward diagonal for any attack
+        row = tmpRow;
+        col = tmpCol;
+        while(row < n && col >= 0) {
+            if(board[row][col] == 'Q') return false;
+            row++;
+            col--;
+        }
+        //if not under attack
+        return true;
+    }
+    
+    void solve(int col, vector<string> &board, vector<vector<string>> &res, int n) {
+        //Base Case - if col reaches the end
+        if(col == n) {
+            res.push_back(board);
+            return ;
+        }
+        
+        for(int row=0;row<n;row++) {
+            if(notAttacking(row,col,board,n)) { //row is fixed and traversed in column
+                board[row][col] = 'Q';
+                solve(col+1 , board, res, n);
+                board[row][col] = '.';
             }
         }
     }
-
-    bool validate(int i, int j, int n){
-        for(int x = 0; x<i; x++) if(arr[x][j] == 1) return 0;
-        for(int x=i, y=j; x>=0 && y >= 0; x--, y--) if(arr[x][y] == 1) return 0;
-        for(int x=i, y=j; x>=0 && y < n; x--, y++) if(arr[x][y] == 1) return 0;
-        return 1;
-    }
-
-    vector<string> stringRender(int n){
-        vector<string> res;
-        for(int i=0; i<n; i++){
-            string tmp = "";
-            for(int j=0; j<n; j++){
-                if(arr[i][j] == 0) tmp += '.';
-                else tmp += 'Q';
-            }
-            res.push_back(tmp);
+    
+    public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> res;
+        vector<string> board(n);
+        string s(n,'.');
+        
+        for(int i=0;i<n;i++) {
+            board[i] = s;
         }
+        solve(0,board,res,n);
         return res;
     }
 };
