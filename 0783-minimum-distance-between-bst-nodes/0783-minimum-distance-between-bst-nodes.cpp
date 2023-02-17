@@ -26,6 +26,7 @@ public:
         int min=999;
         inorder(root,ans);
         sort(ans.begin(),ans.end());
+       int n=ans.size();
         
         if(ans.size()==1) return ans[0];
         else
