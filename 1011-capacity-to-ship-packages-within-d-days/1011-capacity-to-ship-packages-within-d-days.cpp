@@ -31,7 +31,7 @@ public:
         {
             sum=sum+i;
         }
-        int e=accumulate(weights.begin(), weights.end(), 0);
+        int e=sum;
         int mid;
         while(s<=e)
         {   
