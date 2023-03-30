@@ -1,17 +1,19 @@
 class Solution {
 public:
-    int maxSatisfaction(vector<int>& satisfaction) {
-        sort(satisfaction.begin(), satisfaction.end(), greater<int>());
+    int solve(int i,int j,vector<int>& arr,int time,vector<vector<int>>&dp)
+    {
+        if(i==j)
+        return 0;
+        if(dp[i][time]!=-1)
+        return dp[i][time];
+
+        return dp[i][time]=max(arr[i]*time+solve(i+1,j,arr,time+1,dp),solve(i+1,j,arr,time,dp));
+    }
+    int maxSatisfaction(vector<int>& arr) {
+        int n=arr.size();
+        vector<vector<int>> dp(n,vector<int>(n+1,-1));
+        sort(arr.begin(),arr.end());
         
-        int prefSum = 0, res = 0, n = satisfaction.size();
-        for (int i = 0; i < n; i++) {
-            prefSum += satisfaction[i];
-            if (prefSum < 0) {
-                break;
-            }
-            res += prefSum;
-        }
-        
-        return res;
+        return solve(0,n,arr,1,dp);
     }
 };
