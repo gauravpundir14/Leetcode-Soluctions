@@ -18,25 +18,30 @@ public:
         int mx= INT_MIN;
         int level_number;
         while(q.size()){
-            int k=q.size();
-            level++;
-            int sum=0;
-            while(k--){
-                auto x =q.front();
-                q.pop();
-                sum+=x->val;
-                if(x->left!=NULL){
-                    q.push(x->left);
-                }
-                if(x->right!=NULL){
-                    q.push(x->right);
-                }
+         {
+                int g=q.size();
+                level++;
+               int sum=0;
+                while(g--)
+            { auto x=q.front();
+                  q.pop();
+                 sum=sum+x->val;
+                 if(x->left)
+                 {
+                     q.push(x->left);
+                 }
+                 if(x->right)
+                 {
+                     q.push(x->right);
+                 }
             }
-            if(mx<sum){
-                mx=sum;
-                level_number=level;
-            }
-        }
-        return level_number;
+                if(sum>mx)
+                {
+                    mx=sum;
+                    level_number=level;
+                }
+                
+        } }
+            return level_number;
     }
 };
