@@ -17,30 +17,31 @@ public:
     
     int t[5001][10];
     
-    int solve(int n, int cell) {
+    int solve(int n, int cell,vector<vector<int>>&dp) {
         if(n == 0) {
             return 1;
         }
         
-        if(t[n][cell] != -1) {
-            return t[n][cell];
+        if(dp[n][cell] != -1) {
+            return dp[n][cell];
         }
         
         int result = 0;
         
         for(int &nextCell : adj[cell]) {
-            result = (result + solve(n-1, nextCell)) % M; 
+            result = (result + solve(n-1, nextCell,dp)) % M; 
         }
         
-        return t[n][cell] = result;
+        return dp[n][cell] = result;
     }
     
     int knightDialer(int n) {
         int result = 0;
-        memset(t, -1, sizeof(t));
+        
+        vector<vector<int>>dp(5001,vector<int>(10,-1));
         
         for(int cell = 0; cell <= 9; cell++) {
-            result = (result + solve(n-1, cell)) % M;
+            result = (result + solve(n-1, cell,dp)) % M;
         }
         
         return result;
