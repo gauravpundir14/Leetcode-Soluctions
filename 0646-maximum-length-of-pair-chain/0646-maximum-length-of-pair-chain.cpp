@@ -6,7 +6,7 @@ public:
      
         int ans=0;
         int prev_r=INT_MIN;
-        for (auto& p: pairs){
+        for (auto p: pairs){
             if (p[0]> prev_r) {
                 ans++;
                 prev_r=p[1];
