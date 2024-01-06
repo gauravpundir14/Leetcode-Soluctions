@@ -16,19 +16,19 @@ public:
         }
         return result;
     }
-    long long solve(int index,int n,vector<vector<int>>& rides,vector<long long> &dp)
+    long long solve(int index,vector<vector<int>>& rides,vector<long long> &dp)
     {
         if(index>=rides.size())return 0;
         if(dp[index]!=-1)return dp[index];
         int i=search(rides,index);
         
-        long long pick=rides[index][1]-rides[index][0]+rides[index][2]+solve(i,n,rides,dp);
-        long long notpick=solve(index+1,n,rides,dp);
+        long long pick=rides[index][1]-rides[index][0]+rides[index][2]+solve(i,rides,dp);
+        long long notpick=solve(index+1,rides,dp);
         return dp[index]=max(pick,notpick);
     }
     long long maxTaxiEarnings(int n, vector<vector<int>>& rides) {
         vector<long long> dp(rides.size()+1,-1);
         sort(rides.begin(),rides.end());
-        return solve(0,n,rides,dp);
+        return solve(0,rides,dp);
     }
 };
