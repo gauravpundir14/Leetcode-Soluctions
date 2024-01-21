@@ -9,7 +9,7 @@ public:
             maxi=max(m[nums[i]],maxi);
         }
         int ans=0;
-    for(auto &[u,v]:m) if(maxi==v) ans+=maxi;
+    for(auto [u,v]:m) if(maxi==v) ans+=maxi;
         return ans;
     }
 };
